@@ -1,7 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
+    const [email, setEmail] = useState('')
+    const [status, setStatus] = useState({ type: '', message: '' })
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleNewsletterSubmit = async (e) => {
+        e.preventDefault()
+        setIsSubmitting(true)
+        setStatus({ type: '', message: '' })
+
+        try {
+            const response = await fetch('/api/send-newsletter', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email })
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setStatus({ type: 'success', message: '✓' })
+                setEmail('')
+                setTimeout(() => setStatus({ type: '', message: '' }), 3000)
+            } else {
+                setStatus({ type: 'error', message: '✗' })
+                setTimeout(() => setStatus({ type: '', message: '' }), 3000)
+            }
+        } catch (error) {
+            setStatus({ type: 'error', message: '✗' })
+            setTimeout(() => setStatus({ type: '', message: '' }), 3000)
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
     return (
         <footer className="footer section">
             <div className="container">
@@ -21,17 +57,28 @@ const Footer = () => {
 
                     <div className="footer-col social">
                         <h6>Social</h6>
-                        <a href="#">Instagram</a>
+                        <a href="https://www.instagram.com/anantaraadesignstudio?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a>
                         <a href="#">LinkedIn</a>
                         <a href="#">Pinterest</a>
                     </div>
 
                     <div className="footer-col newsletter">
                         <h6>Newsletter</h6>
-                        <div className="newsletter-input">
-                            <input type="email" placeholder="Email Address" />
-                            <button>→</button>
-                        </div>
+                        <form onSubmit={handleNewsletterSubmit}>
+                            <div className="newsletter-input">
+                                <input
+                                    type="email"
+                                    placeholder="Email Address"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    disabled={isSubmitting}
+                                />
+                                <button type="submit" disabled={isSubmitting}>
+                                    {status.message || '→'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -87,6 +134,15 @@ const Footer = () => {
           background: transparent;
           border: none;
           cursor: pointer;
+          transition: color 0.3s;
+        }
+
+        .newsletter-input button:disabled {
+          cursor: not-allowed;
+        }
+
+        .newsletter-input input:disabled {
+          opacity: 0.6;
         }
         
         .footer-btm {

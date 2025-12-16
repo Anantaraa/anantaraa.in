@@ -1,7 +1,52 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PageTransition from '../components/PageTransition'
 
 const Contact = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        location: '',
+        message: ''
+    })
+    const [status, setStatus] = useState({ type: '', message: '' })
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setIsSubmitting(true)
+        setStatus({ type: '', message: '' })
+
+        try {
+            const response = await fetch('/api/send-contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setStatus({ type: 'success', message: 'Thank you! We will get back to you soon.' })
+                setFormData({ name: '', phone: '', location: '', message: '' })
+            } else {
+                setStatus({ type: 'error', message: data.error || 'Failed to send message. Please try again.' })
+            }
+        } catch (error) {
+            setStatus({ type: 'error', message: 'Failed to send message. Please try again.' })
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
     return (
         <PageTransition>
             <div className="page-container section">
@@ -14,34 +59,73 @@ const Contact = () => {
                             <div className="details-block">
                                 <div className="detail-item">
                                     <label>Studio</label>
-                                    <p>123 Architectural Grid,<br />Design District, NY 10012</p>
+                                    <p>341, Avadh Arena,<br />VIP Road, Vesu,<br /> Surat 395007</p>
                                 </div>
                                 <div className="detail-item">
                                     <label>Email</label>
-                                    <a href="mailto:hello@anantaraa.com">hello@anantaraa.com</a>
+                                    <a href="mailto:hello@anantaraa.in">hello@anantaraa.in</a>
                                 </div>
                                 <div className="detail-item">
                                     <label>Phone</label>
-                                    <p>+1 (555) 000-0000</p>
+                                    <p>+91 9574652320</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="contact-form-wrapper">
-                            <form className="minimal-form">
+                            <form className="minimal-form" onSubmit={handleSubmit}>
+                                {status.message && (
+                                    <div className={`form-message ${status.type}`}>
+                                        {status.message}
+                                    </div>
+                                )}
                                 <div className="form-group slide-up">
-                                    <input type="text" placeholder="Your Name" required />
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Your Name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="form-group slide-up" style={{ animationDelay: '0.1s' }}>
-                                    <input type="email" placeholder="Email Address" required />
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        placeholder="Contact Number"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        required
+                                    />
                                 </div>
                                 <div className="form-group slide-up" style={{ animationDelay: '0.2s' }}>
-                                    <input type="text" placeholder="Project Location" />
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        placeholder="Project Location"
+                                        value={formData.location}
+                                        onChange={handleChange}
+                                    />
                                 </div>
                                 <div className="form-group slide-up" style={{ animationDelay: '0.3s' }}>
-                                    <textarea rows="4" placeholder="Briefly describe your vision..." required></textarea>
+                                    <textarea
+                                        rows="4"
+                                        name="message"
+                                        placeholder="Briefly describe your vision..."
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required
+                                    ></textarea>
                                 </div>
-                                <button type="submit" className="submit-btn slide-up" style={{ animationDelay: '0.4s' }}>Submit Inquiry</button>
+                                <button
+                                    type="submit"
+                                    className="submit-btn slide-up"
+                                    style={{ animationDelay: '0.4s' }}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? 'Sending...' : 'Submit Inquiry'}
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -121,6 +205,30 @@ const Contact = () => {
          
          .submit-btn:hover {
             background: var(--text-muted);
+         }
+
+         .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+         }
+
+         .form-message {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+         }
+
+         .form-message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+         }
+
+         .form-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
          }
 
          /* Simple entrance animation for form fields */
