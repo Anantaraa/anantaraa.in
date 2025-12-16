@@ -1,52 +1,105 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <footer>
+        <footer className="footer section">
             <div className="container">
-                <div className="footer-content">
-                    <div className="footer-logo">ANANTARAA</div>
-                    <div className="footer-links">
-                        <a href="https://instagram.com">Instagram</a>
-                        <a href="https://linkedin.com">LinkedIn</a>
-                        <a href="https://twitter.com">Twitter</a>
+                <div className="footer-grid">
+                    <div className="footer-col brand">
+                        <h5>ANANTARAA</h5>
+                        <p>Design Studio</p>
                     </div>
-                    <div className="footer-copy">
-                        &copy; {new Date().getFullYear()} Anantaraa Architecture. All rights reserved.
+
+                    <div className="footer-col links">
+                        <h6>Sitemap</h6>
+                        <Link to="/projects">Projects</Link>
+                        <Link to="/values">Philosophy</Link>
+                        <Link to="/team">Team</Link>
+                        <Link to="/contact">Contact</Link>
+                    </div>
+
+                    <div className="footer-col social">
+                        <h6>Social</h6>
+                        <a href="#">Instagram</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Pinterest</a>
+                    </div>
+
+                    <div className="footer-col newsletter">
+                        <h6>Newsletter</h6>
+                        <div className="newsletter-input">
+                            <input type="email" placeholder="Email Address" />
+                            <button>→</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <style>{`
-        footer {
-          padding: 4rem 0;
-          border-top: 1px solid #222;
-          font-size: 0.8rem;
-          color: #666;
-        }
 
-        .footer-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 2rem;
+                <div className="footer-btm">
+                    <span>© {new Date().getFullYear()} Anantaraa Design Studio.</span>
+                    <span>Privacy Policy</span>
+                </div>
+            </div>
+
+            <style>{`
+        .footer {
+          border-top: 1px solid var(--dividers);
+          background: var(--bg-color);
+          margin-top: 4rem;
         }
         
-        @media (min-width: 768px) {
-           .footer-content {
-             flex-direction: row;
-             justify-content: space-between;
-           }
+        .footer-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr 2fr;
+          gap: 4rem;
+          margin-bottom: 4rem;
         }
-
-        .footer-logo {
-          color: white;
-          font-weight: 700;
-          letter-spacing: 0.1em;
+        
+        .footer-col h6 {
+          font-family: var(--font-body);
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          margin-bottom: 1.5rem;
+          opacity: 0.6;
         }
-
-        .footer-links a {
-          margin: 0 1rem;
-          hover: text-decoration: underline;
+        
+        .footer-col a {
+          display: block;
+          margin-bottom: 0.8rem;
+          font-size: 0.9rem;
+        }
+        
+        .newsletter-input {
+          display: flex;
+          border-bottom: 1px solid var(--text-active);
+          padding-bottom: 0.5rem;
+        }
+        
+        .newsletter-input input {
+          width: 100%;
+          border: none;
+          background: transparent;
+          font-family: var(--font-body);
+        }
+        .newsletter-input input:focus { outline: none; }
+        
+        .newsletter-input button {
+          background: transparent;
+          border: none;
+          cursor: pointer;
+        }
+        
+        .footer-btm {
+          display: flex;
+          justify-content: space-between;
+          padding-top: 2rem;
+          border-top: 1px solid var(--dividers);
+          font-size: 0.75rem;
+          opacity: 0.6;
+        }
+        
+        @media (max-width: 768px) {
+          .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
       `}</style>
         </footer>

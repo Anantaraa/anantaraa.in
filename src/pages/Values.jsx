@@ -1,75 +1,81 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageTransition from '../components/PageTransition'
+import { supabase } from '../lib/supabase'
 
 const Values = () => {
+    const [values, setValues] = useState([])
+
+    useEffect(() => {
+        const fetchValues = async () => {
+            const { data } = await supabase.from('values').select('*').order('display_order', { ascending: true })
+            if (data && data.length > 0) setValues(data)
+            else {
+                // Static Fallback if connection fails/empty
+                setValues([
+                    { title: "Sustainability", description: "Architecture must give more than it takes...", display_order: 1 },
+                    { title: "Context", description: "A building should look like it grew from the site...", display_order: 2 },
+                ])
+            }
+        }
+        fetchValues()
+    }, [])
+
     return (
         <PageTransition>
-            <div className="page-container theme-canvas">
-                <div className="container header-spacer">
+            <div className="page-container section">
+                <div className="container">
                     <h1 className="page-title">Philosophy</h1>
 
-                    <div className="values-list-large">
-                        <div className="value-row">
-                            <span className="index">01</span>
-                            <div className="content">
-                                <h2>Plan from Scratch</h2>
-                                <p>We believe every site whispers a different story. We do not impose; we listen. Every line drawn is a direct response to the context, the light, and the life that will inhabit the space.</p>
+                    <div className="values-layout">
+                        {values.map((val, i) => (
+                            <div key={val.id || i} className="value-block">
+                                <span className="index">0{val.display_order}</span>
+                                <h2>{val.title}</h2>
+                                <p>{val.description}</p>
                             </div>
-                        </div>
-
-                        <div className="value-row">
-                            <span className="index">02</span>
-                            <div className="content">
-                                <h2>3D Visualization</h2>
-                                <p>Uncertainty is the enemy of great design. We bridge the gap between imagination and reality with hyper-realistic visualization, ensuring the dream you see is the home you get.</p>
-                            </div>
-                        </div>
-
-                        <div className="value-row">
-                            <span className="index">03</span>
-                            <div className="content">
-                                <h2>Timeless Designs</h2>
-                                <p>Trends fade. Architecture should not. We strive for a silence in our work—a quality that allows the building to age gracefully, becoming more dignity with time.</p>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
+
             <style>{`
-         .values-list-large {
-            display: flex;
-            flex-direction: column;
+         .values-layout {
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 6rem;
+            margin-top: 4rem;
          }
          
-         .value-row {
+         .value-block {
+            border-top: 1px solid var(--dividers);
+            padding-top: 1rem;
             display: grid;
-            grid-template-columns: 100px 1fr;
-            border-top: 1px solid #ddd;
-            padding-top: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+         }
+         
+         @media (min-width: 768px) {
+            .values-layout {
+               grid-template-columns: 1fr 1fr;
+               column-gap: 4rem;
+               row-gap: 8rem;
+            }
          }
          
          .index {
-            font-family: 'Inter', sans-serif;
-            color: #D4AF37;
+            font-family: var(--font-body);
+            color: var(--accent-sand);
+            font-size: 0.9rem;
          }
          
-         .content h2 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
+         .value-block h2 {
+            font-size: 2.5rem;
          }
          
-         .content p {
-            font-family: 'Inter', sans-serif;
-            max-width: 600px;
-            font-size: 1.1rem;
-            color: #555;
+         .value-block p {
+            color: var(--text-muted);
             line-height: 1.8;
-         }
-         
-         @media (max-width: 768px) {
-            .value-row { grid-template-columns: 1fr; }
-            .index { margin-bottom: 1rem; display: block; }
+            font-size: 1.1rem;
          }
       `}</style>
         </PageTransition>

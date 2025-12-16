@@ -4,124 +4,135 @@ import PageTransition from '../components/PageTransition'
 const Contact = () => {
     return (
         <PageTransition>
-            <div className="page-container theme-canvas">
-                <div className="container header-spacer">
+            <div className="page-container section">
+                <div className="container">
                     <div className="contact-layout">
-                        <div className="contact-text">
+                        <div className="contact-info">
                             <h1 className="page-title">Start a Project</h1>
-                            <p className="intro">We are currently accepting new projects for 2025. Tell us about your vision.</p>
+                            <p className="contact-intro">We are selective with our projects. Tell us about your vision, and if it aligns with our philosophy, we will build it together.</p>
 
-                            <div className="info-block">
-                                <span>Email</span>
-                                <a href="mailto:hello@anantaraadesign.com">hello@anantaraadesign.com</a>
-                            </div>
-
-                            <div className="info-block">
-                                <span>Office</span>
-                                <p>123 Design District<br />New York, NY 10012</p>
+                            <div className="details-block">
+                                <div className="detail-item">
+                                    <label>Studio</label>
+                                    <p>123 Architectural Grid,<br />Design District, NY 10012</p>
+                                </div>
+                                <div className="detail-item">
+                                    <label>Email</label>
+                                    <a href="mailto:hello@anantaraa.com">hello@anantaraa.com</a>
+                                </div>
+                                <div className="detail-item">
+                                    <label>Phone</label>
+                                    <p>+1 (555) 000-0000</p>
+                                </div>
                             </div>
                         </div>
 
-                        <form className="minimal-form">
-                            <div className="input-group">
-                                <label>Name</label>
-                                <input type="text" placeholder="John Doe" />
-                            </div>
-                            <div className="input-group">
-                                <label>Email</label>
-                                <input type="email" placeholder="john@example.com" />
-                            </div>
-                            <div className="input-group">
-                                <label>Details</label>
-                                <textarea rows="4" placeholder="Project location, square footage..."></textarea>
-                            </div>
-                            <button type="submit">Submit Inquiry</button>
-                        </form>
+                        <div className="contact-form-wrapper">
+                            <form className="minimal-form">
+                                <div className="form-group slide-up">
+                                    <input type="text" placeholder="Your Name" required />
+                                </div>
+                                <div className="form-group slide-up" style={{ animationDelay: '0.1s' }}>
+                                    <input type="email" placeholder="Email Address" required />
+                                </div>
+                                <div className="form-group slide-up" style={{ animationDelay: '0.2s' }}>
+                                    <input type="text" placeholder="Project Location" />
+                                </div>
+                                <div className="form-group slide-up" style={{ animationDelay: '0.3s' }}>
+                                    <textarea rows="4" placeholder="Briefly describe your vision..." required></textarea>
+                                </div>
+                                <button type="submit" className="submit-btn slide-up" style={{ animationDelay: '0.4s' }}>Submit Inquiry</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <style>{`
          .contact-layout {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 4rem;
+            gap: 6rem;
          }
          
          @media (min-width: 768px) {
             .contact-layout {
                grid-template-columns: 1fr 1fr;
-               gap: 8rem;
+               align-items: start;
             }
          }
          
-         .intro {
-            font-size: 1.5rem;
+         .contact-intro {
+            font-size: 1.25rem;
+            max-width: 400px;
             margin-bottom: 4rem;
-            line-height: 1.4;
+            color: var(--text-muted);
          }
          
-         .info-block {
+         .detail-item {
             margin-bottom: 2rem;
          }
          
-         .info-block span {
+         .detail-item label {
             display: block;
             text-transform: uppercase;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            color: #888;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
             margin-bottom: 0.5rem;
          }
          
-         .info-block a, .info-block p {
-            font-size: 1.2rem;
-            color: var(--text-color);
+         .detail-item p, .detail-item a {
+            font-size: 1.1rem;
          }
          
          .minimal-form {
-            padding-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
          }
          
-         .input-group {
-            margin-bottom: 3rem;
-         }
-         
-         .input-group label {
-            display: block;
-            margin-bottom: 1rem;
-            font-family: 'Inter', sans-serif;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.1em;
-         }
-         
-         .input-group input, .input-group textarea {
+         .form-group input, .form-group textarea {
             width: 100%;
-            border: none;
-            border-bottom: 1px solid #ccc;
-            padding: 1rem 0;
-            font-size: 1rem;
             background: transparent;
-            font-family: 'Inter', sans-serif;
+            border: none;
+            border-bottom: 1px solid var(--dividers);
+            padding: 1rem 0;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s;
          }
          
-         .input-group input:focus, .input-group textarea:focus {
+         .form-group input:focus, .form-group textarea:focus {
             outline: none;
-            border-bottom-color: black;
+            border-bottom-color: var(--text-active);
          }
          
-         button {
-            background: black;
-            color: white;
+         .submit-btn {
+            align-self: flex-start;
+            background: var(--text-active);
+            color: var(--bg-color);
             border: none;
             padding: 1rem 3rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             cursor: pointer;
-            transition: opacity 0.3s;
+            transition: background 0.3s;
          }
          
-         button:hover { opacity: 0.8; }
+         .submit-btn:hover {
+            background: var(--text-muted);
+         }
+
+         /* Simple entrance animation for form fields */
+         .slide-up {
+            opacity: 0;
+            animation: slideUp 0.6s forwards;
+         }
+         
+         @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+         }
       `}</style>
         </PageTransition>
     )
