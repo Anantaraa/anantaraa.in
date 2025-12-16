@@ -4,6 +4,28 @@ import { Plus, Trash2, Edit2, Save, X } from 'lucide-react'
 import ImageUpload from '../../components/ImageUpload'
 import './ProjectsManager.css' // Import external styles
 
+// Architecture-related stat options
+const STAT_OPTIONS = [
+    { value: '', label: '-- Select Stat --' },
+    { value: 'Height', label: 'Height' },
+    { value: 'Floors', label: 'Floors' },
+    { value: 'Area', label: 'Area' },
+    { value: 'Material', label: 'Primary Material' },
+    { value: 'Status', label: 'Project Status' },
+    { value: 'Timeline', label: 'Timeline' },
+    { value: 'Budget', label: 'Budget' },
+    { value: 'Capacity', label: 'Capacity' },
+    { value: 'Type', label: 'Building Type' },
+    { value: 'Cert', label: 'Certification' },
+    { value: 'Energy Rating', label: 'Energy Rating' },
+    { value: 'Units', label: 'Residential Units' },
+    { value: 'Parking', label: 'Parking Spaces' },
+    { value: 'Footprint', label: 'Site Footprint' },
+    { value: 'Green Space', label: 'Green Space' },
+    { value: 'Structure', label: 'Structure Type' },
+    { value: 'Completion', label: 'Completion Date' }
+]
+
 const ProjectsManager = () => {
     const [projects, setProjects] = useState([])
     const [editing, setEditing] = useState(null)
@@ -16,6 +38,14 @@ const ProjectsManager = () => {
         grid1: null, // Extra Grid 1
         grid2: null, // Extra Grid 2
         grid3: null  // Extra Grid 3
+    })
+    const [stats, setStats] = useState({
+        stat1Label: '',
+        stat1Value: '',
+        stat2Label: '',
+        stat2Value: '',
+        stat3Label: '',
+        stat3Value: ''
     })
 
     useEffect(() => {
@@ -46,11 +76,23 @@ const ProjectsManager = () => {
             grid2: project.gallery_grid_2,
             grid3: project.gallery_grid_3
         })
+
+        // Populate stats from project.stats array
+        const projectStats = project.stats || []
+        setStats({
+            stat1Label: projectStats[0]?.label || '',
+            stat1Value: projectStats[0]?.value || '',
+            stat2Label: projectStats[1]?.label || '',
+            stat2Value: projectStats[1]?.value || '',
+            stat3Label: projectStats[2]?.label || '',
+            stat3Value: projectStats[2]?.value || ''
+        })
     }
 
     const startNew = () => {
         setEditing({})
         setImages({ main: null, vertical: null, horizontal1: null, horizontal2: null, grid1: null, grid2: null, grid3: null })
+        setStats({ stat1Label: '', stat1Value: '', stat2Label: '', stat2Value: '', stat3Label: '', stat3Value: '' })
     }
 
     const updateImage = (key, url) => {
@@ -70,6 +112,18 @@ const ProjectsManager = () => {
             }
         }
 
+        // Build stats array from selected stats
+        const statsArray = []
+        if (stats.stat1Label && stats.stat1Value) {
+            statsArray.push({ label: stats.stat1Label, value: stats.stat1Value })
+        }
+        if (stats.stat2Label && stats.stat2Value) {
+            statsArray.push({ label: stats.stat2Label, value: stats.stat2Value })
+        }
+        if (stats.stat3Label && stats.stat3Value) {
+            statsArray.push({ label: stats.stat3Label, value: stats.stat3Value })
+        }
+
         const projectData = {
             title: formData.get('title'),
             type: formData.get('type'),
@@ -86,6 +140,7 @@ const ProjectsManager = () => {
             gallery_grid_1: images.grid1,
             gallery_grid_2: images.grid2,
             gallery_grid_3: images.grid3,
+            stats: statsArray,
             featured: isFeatured
         }
 
@@ -193,6 +248,92 @@ const ProjectsManager = () => {
                             <div className="media-slot">
                                 <label>Extra: Vertical 2</label>
                                 <ImageUpload onUpload={(u) => updateImage('grid3', u)} currentImage={images.grid3} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* PROJECT STATISTICS */}
+                    <div className="form-section">
+                        <h3 className="section-title">05. Project Statistics (Max 3)</h3>
+                        <p className="section-desc">Select up to 3 key metrics to highlight on the project detail page.</p>
+
+                        <div className="stats-form-grid">
+                            {/* Stat 1 */}
+                            <div className="stat-form-row">
+                                <div className="form-group">
+                                    <label>Statistic 1</label>
+                                    <select
+                                        value={stats.stat1Label}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat1Label: e.target.value }))}
+                                        className="stat-select"
+                                    >
+                                        {STAT_OPTIONS.map(opt => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Value</label>
+                                    <input
+                                        type="text"
+                                        value={stats.stat1Value}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat1Value: e.target.value }))}
+                                        placeholder="e.g., 320m, 72 floors, LEED Platinum"
+                                        disabled={!stats.stat1Label}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Stat 2 */}
+                            <div className="stat-form-row">
+                                <div className="form-group">
+                                    <label>Statistic 2</label>
+                                    <select
+                                        value={stats.stat2Label}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat2Label: e.target.value }))}
+                                        className="stat-select"
+                                    >
+                                        {STAT_OPTIONS.map(opt => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Value</label>
+                                    <input
+                                        type="text"
+                                        value={stats.stat2Value}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat2Value: e.target.value }))}
+                                        placeholder="e.g., 320m, 72 floors, LEED Platinum"
+                                        disabled={!stats.stat2Label}
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Stat 3 */}
+                            <div className="stat-form-row">
+                                <div className="form-group">
+                                    <label>Statistic 3</label>
+                                    <select
+                                        value={stats.stat3Label}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat3Label: e.target.value }))}
+                                        className="stat-select"
+                                    >
+                                        {STAT_OPTIONS.map(opt => (
+                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Value</label>
+                                    <input
+                                        type="text"
+                                        value={stats.stat3Value}
+                                        onChange={(e) => setStats(prev => ({ ...prev, stat3Value: e.target.value }))}
+                                        placeholder="e.g., 320m, 72 floors, LEED Platinum"
+                                        disabled={!stats.stat3Label}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>

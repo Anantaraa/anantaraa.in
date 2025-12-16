@@ -33,13 +33,13 @@ const Navigation = () => {
           background: transparent;
           backdrop-filter: blur(1px); /* Subtle */
         }
-        
+
         .nav-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
-        
+
         .logo {
           font-family: var(--font-body);
           font-weight: 500;
@@ -47,17 +47,17 @@ const Navigation = () => {
           letter-spacing: 0.1em;
           text-transform: uppercase;
         }
-        
+
         .logo-suffix {
           color: var(--text-muted);
           margin-left: 0.5rem;
         }
-        
+
         .nav-links {
           display: flex;
           gap: 2rem;
         }
-        
+
         .nav-item {
           font-size: 0.8rem;
           text-transform: uppercase;
@@ -65,11 +65,11 @@ const Navigation = () => {
           color: var(--text-muted);
           position: relative;
         }
-        
+
         .nav-item.active, .nav-item:hover {
           color: var(--text-active);
         }
-        
+
         .nav-item.active::after {
           content: '';
           position: absolute;

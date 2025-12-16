@@ -36,22 +36,23 @@ const Home = () => {
                         <div className="overlay"></div>
                     </motion.div>
                     <div className="container hero-content">
-                        <motion.h1
-                            initial={{ y: 100, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                        >
-                            Designing Spaces.<br />Crafting Experiences.
-                        </motion.h1>
                         <motion.div
-                            className="scroll-indicator"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1 }}
+                            className="hero-brand"
+                            initial={{ y: 80, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.1 }}
                         >
-                            <span>Scroll</span>
-                            <div className="line"></div>
+                            <h1 className="brand-title">ANANTARAA</h1>
+                            <p className="brand-subtitle">Design Studio</p>
                         </motion.div>
+                        <motion.h2
+                            className="hero-tagline"
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ duration: 1, delay: 0.3 }}
+                        >
+                            Designing Spaces, Crafting Experiences.
+                        </motion.h2>
                     </div>
                 </section>
 
@@ -77,7 +78,7 @@ const Home = () => {
                         </div>
                         <div className="featured-grid">
                             {featuredProjects.map((project) => (
-                                <Link key={project.id} to={`/ projects / ${project.id} `} className="featured-card">
+                                <Link key={project.id} to={`/projects/${project.id}`} className="featured-card">
                                     <div className="img-wrapper">
                                         <img src={project.image_url || project.img || '/src/assets/p1.png'} alt={project.title} />
                                     </div>
@@ -99,6 +100,7 @@ const Home = () => {
                     overflow: hidden;
                     display: flex;
                     align-items: center;
+                    justify-content: center;
                 }
                 
                 .hero-bg {
@@ -122,33 +124,60 @@ const Home = () => {
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: rgba(0, 0, 0, 0.3);
+                    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.6) 100%);
                 }
                 
                 .hero-content {
                     color: white;
                     position: relative;
                     width: 100%;
-                }
-                
-                .hero-content h1 {
-                    font-size: clamp(3rem, 6vw, 6rem);
-                    line-height: 1.1;
-                }
-                
-                .scroll-indicator {
-                    position: absolute;
-                    bottom: -15vh; /* Adjust based on hero height */
-                    left: 0;
+                    height: 100%;
                     display: flex;
                     flex-direction: column;
-                    gap: 1rem;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1;
                 }
-                
-                .scroll-indicator .line {
-                    width: 1px;
-                    height: 60px;
-                    background: white;
+
+                .hero-brand {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start; /* Left align items */
+                    gap: 0.5rem;
+                }
+
+                .brand-title {
+                    font-size: clamp(3.5rem, 9vw, 9rem);
+                    font-family: var(--font-body); /* Minimalist */
+                    font-weight: 300; /* Light/Minimal */
+                    letter-spacing: -0.02em;
+                    color: #fff;
+                    line-height: 1;
+                    margin: 0;
+                    text-transform: uppercase; /* Often looks more minimalist/modern */
+                }
+
+                .brand-subtitle {
+                    font-size: clamp(0.9rem, 1.5vw, 1.25rem);
+                    font-family: var(--font-body); /* Same font */
+                    font-weight: 400;
+                    letter-spacing: 0.2em; /* Spacing for elegance */
+                    color: rgba(255, 255, 255, 0.9);
+                    text-transform: uppercase;
+                    margin-left: 0.3rem; /* Tiny optical adjustment or 0 */
+                }
+
+                .hero-tagline {
+                    position: absolute;
+                    bottom: 12vh; /* Bottom but not all the way */
+                    font-size: clamp(1rem, 2vw, 1.5rem);
+                    font-family: var(--font-body);
+                    font-weight: 300;
+                    color: rgba(255, 255, 255, 0.85);
+                    text-align: center;
+                    width: 100%;
+                    max-width: 600px;
+                    letter-spacing: 0.05em;
                 }
 
                 .manifesto-grid {
@@ -215,7 +244,6 @@ const Home = () => {
                 @media(min-width: 768px) {
                     .manifesto-grid { grid-template-columns: 1fr 1fr; }
                     .featured-grid { grid-template-columns: 1fr 1fr; }
-                    .scroll-indicator { bottom: -20vh; }
                 }
             `}</style>
         </PageTransition>

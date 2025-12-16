@@ -91,18 +91,20 @@ const ProjectDetail = () => {
                 </div>
 
                 {/* Stats Strip */}
-                <div className="stats-section">
-                    <div className="container">
-                        <div className="stats-grid">
-                            {project.stats.map((stat, i) => (
-                                <div key={i} className="stat-card">
-                                    <span className="stat-val">{stat.value}</span>
-                                    <span className="stat-label">{stat.label}</span>
-                                </div>
-                            ))}
+                {project.stats && project.stats.length > 0 && (
+                    <div className="stats-section">
+                        <div className="container">
+                            <div className="stats-grid">
+                                {project.stats.map((stat, i) => (
+                                    <div key={i} className="stat-card">
+                                        <span className="stat-val">{stat.value}</span>
+                                        <span className="stat-label">{stat.label}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Extended Gallery Mosaic */}
                 {(project.gallery_vertical || project.gallery_horizontal_1) && (
