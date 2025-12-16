@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
       },
       body: JSON.stringify({
-        from: 'Anantaraa Website <onboarding@resend.dev>',
+        from: 'Anantaraa Website <noreply@anantaraa.in>',
         to: 'hello@anantaraa.in',
         subject: `New Project Inquiry from ${name}`,
         html: `
