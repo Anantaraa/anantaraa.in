@@ -79,14 +79,6 @@ const ProjectDetail = () => {
                         <div className="narrative-intro">
                             <p>{project.description}</p>
                         </div>
-                        <div className="narrative-col">
-                            <h3>The Challenge</h3>
-                            <p>{project.challenge}</p>
-                        </div>
-                        <div className="narrative-col">
-                            <h3>The Solution</h3>
-                            <p>{project.solution}</p>
-                        </div>
                     </div>
                 </div>
 
@@ -107,6 +99,52 @@ const ProjectDetail = () => {
                 )}
 
                 {/* Extended Gallery Mosaic */}
+                {/* Additional Grid Section (Floor Plans / Extra Views) - MOVED TO TOP */}
+                {(project.gallery_grid_1 || project.gallery_grid_2 || project.gallery_grid_3) && (
+                    <div className="section pt-0">
+                        <div className="container">
+                            <div className="extra-grid-layout">
+                                {project.gallery_grid_1 && (
+                                    <div className="extra-item full-width">
+                                        <img src={project.gallery_grid_1} alt="Detail Grid 1" />
+                                    </div>
+                                )}
+                                {(project.gallery_grid_2 || project.gallery_grid_3) && (
+                                    <div className="extra-row-split">
+                                        {project.gallery_grid_2 && (
+                                            <div className="extra-item portrait">
+                                                <img src={project.gallery_grid_2} alt="Detail Grid 2" />
+                                            </div>
+                                        )}
+                                        {project.gallery_grid_3 && (
+                                            <div className="extra-item portrait">
+                                                <img src={project.gallery_grid_3} alt="Detail Grid 3" />
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Challenge & Solution Section */}
+                <div className="section">
+                    <div className="container">
+                        <div className="narrative-grid split-view">
+                            <div className="narrative-col">
+                                <h3>The Challenge</h3>
+                                <p>{project.challenge}</p>
+                            </div>
+                            <div className="narrative-col">
+                                <h3>The Solution</h3>
+                                <p>{project.solution}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Extended Gallery Mosaic - MOVED TO BOTTOM */}
                 {(project.gallery_vertical || project.gallery_horizontal_1) && (
                     <div className="section">
                         <div className="container">
@@ -277,7 +315,42 @@ const ProjectDetail = () => {
                  display: grid;
                  grid-template-columns: 1fr 1fr;
                  gap: 2rem;
-                 height: 80vh; /* Fixed height for mosaic effect */
+                 height: auto;
+                 aspect-ratio: 16/9;
+             }
+
+             /* Extra Grid Layout */
+             .extra-grid-layout {
+                 display: flex;
+                 flex-direction: column;
+                 gap: 2rem;
+             }
+
+             .extra-item img {
+                 width: 100%;
+                 height: 100%;
+                 object-fit: cover;
+                 display: block;
+             }
+
+             .extra-row-split {
+                 display: grid;
+                 grid-template-columns: 1fr;
+                 gap: 2rem;
+             }
+
+             @media (min-width: 768px) {
+                 .extra-row-split {
+                     grid-template-columns: 1fr 1fr;
+                 }
+                 .extra-item.full-width {
+                     height: auto;
+                     aspect-ratio: 16/9;
+                 }
+                 .extra-item.portrait {
+                     height: auto;
+                     aspect-ratio: 4/5;
+                 }
              }
              
              .mosaic-column-left {

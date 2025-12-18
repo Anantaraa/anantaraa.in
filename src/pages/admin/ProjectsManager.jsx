@@ -212,49 +212,9 @@ const ProjectsManager = () => {
                         </div>
                     </div>
 
-                    {/* MEDIA GALLERY */}
+                    {/* PROJECT STATISTICS - MOVED TO 04 */}
                     <div className="form-section">
-                        <h3 className="section-title">04. Media Gallery (6 Slots + Cover)</h3>
-
-                        <div className="media-grid">
-                            <div className="media-slot full-width">
-                                <label>Main Cover (Hero Image)</label>
-                                <ImageUpload onUpload={(u) => updateImage('main', u)} currentImage={images.main} />
-                            </div>
-
-                            {/* New Layout Group (3 Images) */}
-                            <div className="media-slot">
-                                <label>Gallery: Right Vertical</label>
-                                <ImageUpload onUpload={(u) => updateImage('vertical', u)} currentImage={images.vertical} />
-                            </div>
-                            <div className="media-slot">
-                                <label>Gallery: Left Top (Horiz)</label>
-                                <ImageUpload onUpload={(u) => updateImage('horizontal1', u)} currentImage={images.horizontal1} />
-                            </div>
-                            <div className="media-slot">
-                                <label>Gallery: Left Btm (Horiz)</label>
-                                <ImageUpload onUpload={(u) => updateImage('horizontal2', u)} currentImage={images.horizontal2} />
-                            </div>
-
-                            {/* Additional Grid (3 Images) */}
-                            <div className="media-slot">
-                                <label>Extra: Horizontal</label>
-                                <ImageUpload onUpload={(u) => updateImage('grid1', u)} currentImage={images.grid1} />
-                            </div>
-                            <div className="media-slot">
-                                <label>Extra: Vertical 1</label>
-                                <ImageUpload onUpload={(u) => updateImage('grid2', u)} currentImage={images.grid2} />
-                            </div>
-                            <div className="media-slot">
-                                <label>Extra: Vertical 2</label>
-                                <ImageUpload onUpload={(u) => updateImage('grid3', u)} currentImage={images.grid3} />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* PROJECT STATISTICS */}
-                    <div className="form-section">
-                        <h3 className="section-title">05. Project Statistics (Max 3)</h3>
+                        <h3 className="section-title">04. Project Statistics (Max 3)</h3>
                         <p className="section-desc">Select up to 3 key metrics to highlight on the project detail page.</p>
 
                         <div className="stats-form-grid">
@@ -304,7 +264,7 @@ const ProjectsManager = () => {
                                         type="text"
                                         value={stats.stat2Value}
                                         onChange={(e) => setStats(prev => ({ ...prev, stat2Value: e.target.value }))}
-                                        placeholder="e.g., 320m, 72 floors, LEED Platinum"
+                                        placeholder="Value"
                                         disabled={!stats.stat2Label}
                                     />
                                 </div>
@@ -330,13 +290,55 @@ const ProjectsManager = () => {
                                         type="text"
                                         value={stats.stat3Value}
                                         onChange={(e) => setStats(prev => ({ ...prev, stat3Value: e.target.value }))}
-                                        placeholder="e.g., 320m, 72 floors, LEED Platinum"
+                                        placeholder="Value"
                                         disabled={!stats.stat3Label}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {/* MEDIA GALLERY - MOVED TO 05 */}
+                    <div className="form-section">
+                        <h3 className="section-title">05. Media Gallery (6 Slots + Cover)</h3>
+
+                        <div className="media-grid">
+                            <div className="media-slot full-width">
+                                <label>Main Cover (Hero Image) (16:9)</label>
+                                <ImageUpload onUpload={(u) => updateImage('main', u)} currentImage={images.main} />
+                            </div>
+
+                            {/* Additional Grid (3 Images) - MOVED TO TOP */}
+                            <div className="media-slot">
+                                <label>Gallery: Horizontal (16:9)</label>
+                                <ImageUpload onUpload={(u) => updateImage('grid1', u)} currentImage={images.grid1} />
+                            </div>
+                            <div className="media-slot">
+                                <label>Gallery: Vertical 1 (4:5)</label>
+                                <ImageUpload onUpload={(u) => updateImage('grid2', u)} currentImage={images.grid2} />
+                            </div>
+                            <div className="media-slot">
+                                <label>Gallery: Vertical 2 (4:5)</label>
+                                <ImageUpload onUpload={(u) => updateImage('grid3', u)} currentImage={images.grid3} />
+                            </div>
+
+                            {/* New Layout Group (3 Images) - MOVED TO BOTTOM */}
+                            <div className="media-slot">
+                                <label>Gallery: Right Vertical (4:5)</label>
+                                <ImageUpload onUpload={(u) => updateImage('vertical', u)} currentImage={images.vertical} />
+                            </div>
+                            <div className="media-slot">
+                                <label>Gallery: Left Top (16:9)</label>
+                                <ImageUpload onUpload={(u) => updateImage('horizontal1', u)} currentImage={images.horizontal1} />
+                            </div>
+                            <div className="media-slot">
+                                <label>Gallery: Left Btm (16:9)</label>
+                                <ImageUpload onUpload={(u) => updateImage('horizontal2', u)} currentImage={images.horizontal2} />
+                            </div>
+                        </div>
+                    </div>
+
+
 
                     <button type="submit" className="btn-save full-width"><Save size={18} /> Save Project</button>
                 </form>
